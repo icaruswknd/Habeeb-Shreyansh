@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Apps Playground</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #f9f9f9; }
+    h2 { margin-top: 2rem; }
+    input, button { margin: 0.5rem 0; padding: 0.5rem; }
+    .app { border: 1px solid #ccc; padding: 1rem; margin: 1rem 0; background: #fff; border-radius: 8px; }
+    .output { margin-top: 0.5rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Mini Apps Playground</h1>
+
+  <!-- Number System Converter -->
+  <div class="app">
+    <h2>Number System Converter</h2>
+    <input id="numInput" type="number" placeholder="Enter a decimal number">
+    <button id="convertBtn">Convert</button>
+    <div class="output" id="binary"></div>
+    <div class="output" id="octal"></div>
+    <div class="output" id="hex"></div>
+  </div>
+
+  <!-- Calculator -->
+  <div class="app">
+    <h2>Calculator</h2>
+    <input id="calcNum1" type="number" placeholder="First number">
+    <input id="calcNum2" type="number" placeholder="Second number">
+    <select id="operation">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">*</option>
+      <option value="/">/</option>
+    </select>
+    <button id="calcBtn">Calculate</button>
+    <div class="output" id="calcResult"></div>
+  </div>
+
+  <!-- Bet Keeper -->
+  <div class="app">
+    <h2>Bet Keeper</h2>
+    <input id="betInput" type="number" placeholder="Enter bet amount">
+    <button id="addBetBtn">Add Bet</button>
+    <div class="output" id="total">Total: 0</div>
+    <ul id="betList"></ul>
+  </div>
+
+  <script>
+    // Number Converter
+    const numInput = document.getElementById('numInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const binaryOut = document.getElementById('binary');
+    const octalOut = document.getElementById('octal');
+    const hexOut = document.getElementById('hex');
+
+    convertBtn.addEventListener('click', () => {
+      const n = Number(numInput.value);
+      if (isNaN(n)) return;
+      binaryOut.textContent = `Binary: ${n.toString(2)}`;
+      octalOut.textContent = `Octal: ${n.toString(8)}`;
+      hexOut.textContent = `Hex: ${n.toString(16).toUpperCase()}`;
+    });
+
+    // Calculator
+    const calcBtn = document.getElementById('calcBtn');
+    const calcResult = document.getElementById('calcResult');
+    calcBtn.addEventListener('click', () => {
+      const a = Number(document.getElementById('calcNum1').value);
+      const b = Number(document.getElementById('calcNum2').value);
+      const op = document.getElementById('operation').value;
+      let result;
+      switch (op) {
+        case '+': result = a + b; break;
+        case '-': result = a - b; break;
+        case '*': result = a * b; break;
+        case '/': result = b !== 0 ? a / b : 'Error (divide by zero)'; break;
+      }
+      calcResult.textContent = `Result: ${result}`;
+    });
+
+    // Bet Keeper
+    let total = 0;
+    const addBetBtn = document.getElementById('addBetBtn');
+    const betInput = document.getElementById('betInput');
+    const totalOut = document.getElementById('total');
+    const betList = document.getElementById('betList');
+
+    addBetBtn.addEventListener('click', () => {
+      const bet = Number(betInput.value);
+      if (isNaN(bet) || bet <= 0) return;
+      total += bet;
+      totalOut.textContent = `Total: ${total}`;
+
+      const li = document.createElement('li');
+      li.textContent = `Bet: ${bet}`;
+      betList.appendChild(li);
+
+      betInput.value = '';
+    });
+  </script>
+</body>
+</html>
